@@ -13,6 +13,12 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.quit()
 
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_movie_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Margo likes movies and keeps a list of the movies they have watched.
         # They heard about a new online app that allows the user to keep a list of
@@ -39,10 +45,7 @@ class NewVisitorTest(unittest.TestCase):
         # "1: The Terminator" as a movie title in a movie list
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-
-        table = self.browser.find_element_by_id('id_movie_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: The Terminator', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: The Terminator')
 
         # There is still a text box inviting them to add another item. They
         # enter "Finding Nemo" (Margo has a nephew visit from time to time)
@@ -52,10 +55,8 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
         
         # The page updates again, and now shows both movie titles on their list
-        table = self.browser.find_element_by_id('id_movie_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: The Terminator', [row.text for row in rows])
-        self.assertIn('2: Finding Nemo', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: The Terminator')
+        self.check_for_row_in_list_table('2: Finding Nemo')
         
         # Margo wonders whether the site will remember their list. Then they see that
         # the site has generated a unique URL for them -- there is some explanatory
