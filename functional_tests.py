@@ -42,21 +42,25 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_movie_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: The Terminator' for row in rows),
-            "New movie title did not appear in table"
-        )
-
+        self.assertIn('1: The Terminator', [row.text for row in rows])
 
         # There is still a text box inviting them to add another item. They
         # enter "Finding Nemo" (Margo has a nephew visit from time to time)
-        self.fail('Finish the test!')
+        inputbox = self.browser.find_element_by_id('id_new_movie')
+        inputbox.send_keys('Finding Nemo')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
         
         # The page updates again, and now shows both movie titles on their list
+        table = self.browser.find_element_by_id('id_movie_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: The Terminator', [row.text for row in rows])
+        self.assertIn('2: Finding Nemo', [row.text for row in rows])
         
         # Margo wonders whether the site will remember their list. Then they see that
         # the site has generated a unique URL for them -- there is some explanatory
         # text to that effect.
+        self.fail('Finish the test!')
         
         # They visit that URL - their movie list is still there.
         

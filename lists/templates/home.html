@@ -4,8 +4,13 @@
     </head>
     <body>
         <h1>Your Movie List</h1>
-        <input id="id_new_movie" placeholder="Enter a movie title" />
+        <form method="POST">
+            <input name="movie_title" id="id_new_movie" placeholder="Enter a movie title" />
+            {% csrf_token %}
+        </form>
+
         <table id="id_movie_table">
+            <tr><td>1: {{ new_movie_title }}</td></tr>
         </table>
     </body>
 </html>
