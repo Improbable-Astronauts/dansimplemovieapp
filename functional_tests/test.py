@@ -1,9 +1,9 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -23,7 +23,7 @@ class NewVisitorTest(unittest.TestCase):
         # Margo likes movies and keeps a list of the movies they have watched.
         # They heard about a new online app that allows the user to keep a list of
         # movies. Margo visits the movielists homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         
         # They notice that they page title and header mention movie lists
         self.assertIn('Movie Lists', self.browser.title)
@@ -67,5 +67,3 @@ class NewVisitorTest(unittest.TestCase):
         
         # Satisfied, Margo goes back to sleep.
 
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
