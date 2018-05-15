@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from lists.models import Movie
 
 def home_page(request):
-    return render(request, 'home.html', {
-        'new_movie_title': request.POST.get('movie_title', ''),
-    })
+    if request.method == 'POST':
+        Movie.objects.create(title=request.POST['movie_title'])
+        return redirect('/')
+
+    movies = Movie.objects.all()
+    return render(request, 'home.html', {'movies': movies})
 

@@ -10,7 +10,9 @@
         </form>
 
         <table id="id_movie_table">
-            <tr><td>1: {{ new_movie_title }}</td></tr>
+            {% for movie in movies %}
+                <tr><td>{{ forloop.counter }}: {{ movie.title }}</td></tr>
+            {% endfor %}
         </table>
     </body>
 </html>
