@@ -3,17 +3,12 @@
         <title>Movie Lists</title>
     </head>
     <body>
-        <h1>Your Movie List</h1>
+        <h1>Start a new Movie list</h1>
         <form method="POST">
             <input name="movie_title" id="id_new_movie" placeholder="Enter a movie title" />
             {% csrf_token %}
         </form>
 
-        <table id="id_movie_table">
-            {% for movie in movies %}
-                <tr><td>{{ forloop.counter }}: {{ movie.title }}</td></tr>
-            {% endfor %}
-        </table>
     </body>
 </html>
 

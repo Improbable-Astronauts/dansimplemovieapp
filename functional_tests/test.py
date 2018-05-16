@@ -76,7 +76,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_movie')
         inputbox.send_keys('The Terminator')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1. The Terminator')
+        self.wait_for_row_in_list_table('1: The Terminator')
 
         # They notice that their list has a unique URL
         margo_list_url = self.browser.current_url
