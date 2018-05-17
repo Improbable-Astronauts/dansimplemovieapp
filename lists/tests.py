@@ -14,25 +14,6 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
 
-    def test_can_save_a_POST_request(self):
-        self.client.post('/', data={'movie_title': 'A new movie title'})
-
-        self.assertEqual(Movie.objects.count(), 1)
-        new_movie = Movie.objects.first()
-        self.assertEqual(new_movie.title, 'A new movie title')
-
-
-    def test_redirects_after_POST(self):
-        response = self.client.post('/', data={'movie_title': 'A new movie title'})
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world')
-
-
-    def test_only_saves_movies_when_necessary(self):
-        self.client.get('/')
-        self.assertEqual(Movie.objects.count(), 0)
-
-
 class ItemModelTest(TestCase):
 
     def test_saving_and_retrieving_movies(self):
@@ -68,5 +49,19 @@ class ListViewTest(TestCase):
 
         self.assertContains(response, 'moviey 1')
         self.assertContains(response, 'moviey 2')
+
+
+class NewListTest(TestCase):
+
+    def test_can_save_a_POST_request(self):
+        self.client.post('/lists/new', data={'movie_title': 'A new movie title'})
+        self.assertEqual(Movie.objects.count(), 1)
+        new_movie = Movie.objects.first()
+        self.assertEqual(new_movie.title, 'A new movie title')
+
+
+    def test_redirects_after_POST(self):
+        response = self.client.post('/lists/new', data={'movie_title': 'A new movie title'})
+        self.assertRedirects(response, '/lists/the-only-list-in-the-world/')
 
 

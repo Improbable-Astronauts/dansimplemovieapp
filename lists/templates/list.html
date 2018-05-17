@@ -4,7 +4,7 @@
     </head>
     <body>
         <h1>Your Movie List</h1>
-        <form method="POST" action='/'>
+        <form method="POST" action='/lists/new'>
             <input name="movie_title" id="id_new_movie" placeholder="Enter a movie title" />
             {% csrf_token %}
         </form>
