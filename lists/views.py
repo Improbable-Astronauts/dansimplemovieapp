@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 
-from lists.models import Movie
+from lists.models import Movie, List
 
 
 def home_page(request):
@@ -16,5 +16,6 @@ def view_list(request):
 
 
 def new_list(request):
-    Movie.objects.create(title=request.POST['movie_title'])
+    movielist = List.objects.create()
+    Movie.objects.create(title=request.POST['movie_title'], list=movielist)
     return redirect('/lists/the-only-list-in-the-world/')
