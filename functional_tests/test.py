@@ -14,6 +14,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 
     def tearDown(self):
+        self.browser.refresh()
         self.browser.quit()
 
 
