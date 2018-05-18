@@ -10,12 +10,19 @@ def home_page(request):
     return render(request, 'home.html')
 
 
-def view_list(request):
-    movies = Movie.objects.all()
-    return render(request, 'list.html', {'movies': movies})
+def view_list(request, list_id):
+    movielist = List.objects.get(id=list_id)
+    return render(request, 'list.html', {'list': movielist})
 
 
 def new_list(request):
     movielist = List.objects.create()
-    Movie.objects.create(title=request.POST['movie_title'], list=movielist)
-    return redirect('/lists/the-only-list-in-the-world/')
+    Movie.objects.create(title=request.POST['movie_title'], movielist=movielist)
+    return redirect(f'/lists/{movielist.id}/')
+
+
+def add_movie(request, list_id):
+    movielist = List.objects.get(id=list_id)
+    Movie.objects.create(title=request.POST['movie_title'], movielist=movielist)
+    return redirect(f'/lists/{movielist.id}/')
+

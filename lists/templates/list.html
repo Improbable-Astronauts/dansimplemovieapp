@@ -4,13 +4,13 @@
     </head>
     <body>
         <h1>Your Movie List</h1>
-        <form method="POST" action='/lists/new'>
+        <form method="POST" action='/lists/{{ list.id }}/add_movie'>
             <input name="movie_title" id="id_new_movie" placeholder="Enter a movie title" />
             {% csrf_token %}
         </form>
 
         <table id="id_movie_table">
-            {% for movie in movies %}
+            {% for movie in list.movie_set.all %}
                 <tr><td>{{ forloop.counter }}: {{ movie.title }}</td></tr>
             {% endfor %}
         </table>

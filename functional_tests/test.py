@@ -40,7 +40,7 @@ class NewVisitorTest(LiveServerTestCase):
         # They notice that they page title and header mention movie lists
         self.assertIn('Movie Lists', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Movie List', header_text)
+        self.assertIn('Start a new Movie list', header_text)
         
         # They are invited to enter a movie title straight away
         inputbox = self.browser.find_element_by_id('id_new_movie')
@@ -100,7 +100,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_movie')
         inputbox.send_keys("You've Got Mail")
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("You've Got Mail")
+        self.wait_for_row_in_list_table("1: You've Got Mail")
 
         # Carlos gets their own unique URL
         carlos_list_url = self.browser.current_url
