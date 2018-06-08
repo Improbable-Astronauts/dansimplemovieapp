@@ -1,19 +1,14 @@
-<html>
-    <head>
-        <title>Movie Lists</title>
-    </head>
-    <body>
-        <h1>Your Movie List</h1>
-        <form method="POST" action='/lists/{{ list.id }}/add_movie'>
-            <input name="movie_title" id="id_new_movie" placeholder="Enter a movie title" />
-            {% csrf_token %}
-        </form>
+{% extends 'base.html' %}
 
-        <table id="id_movie_table">
-            {% for movie in list.movie_set.all %}
-                <tr><td>{{ forloop.counter }}: {{ movie.title }}</td></tr>
-            {% endfor %}
-        </table>
-    </body>
-</html>
+{% block header_text %}Your Movie List{% endblock %}
+
+{% block form_action %}/lists/{{ list.id }}/add_movie{% endblock %}
+
+{% block table %}
+   <table id="id_movie_table">
+     {% for movie in list.movie_set.all %}
+       <tr><td>{{ forloop.counter }}: {{ movie.title }}</td></tr>
+     {% endfor %}
+   </table>
+{% endblock %}
 

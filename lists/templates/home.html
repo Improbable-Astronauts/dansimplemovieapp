@@ -1,14 +1,6 @@
-<html>
-    <head>
-        <title>Movie Lists</title>
-    </head>
-    <body>
-        <h1>Start a new Movie list</h1>
-        <form method="POST" action='/lists/new'>
-            <input name="movie_title" id="id_new_movie" placeholder="Enter a movie title" />
-            {% csrf_token %}
-        </form>
+{% extends 'base.html' %}
 
-    </body>
-</html>
+{% block header_text %}Start a new Movie list{% endblock %}
+
+{% block form_action %}/lists/new{% endblock %}
 
