@@ -5,7 +5,7 @@
 {% block form_action %}/lists/{{ list.id }}/add_movie{% endblock %}
 
 {% block table %}
-   <table id="id_movie_table">
+   <table id="id_movie_table" class="table">
      {% for movie in list.movie_set.all %}
        <tr><td>{{ forloop.counter }}: {{ movie.title }}</td></tr>
      {% endfor %}
