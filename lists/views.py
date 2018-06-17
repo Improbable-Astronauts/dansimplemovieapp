@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.core.exceptions import ValidationError
 
 from lists.models import Movie, List
 
@@ -16,9 +17,16 @@ def view_list(request, list_id):
 
 
 def new_list(request):
-    movielist = List.objects.create()
-    Movie.objects.create(title=request.POST['movie_title'], movielist=movielist)
-    return redirect(f'/lists/{movielist.id}/')
+    movie_list = List.objects.create()
+    new_movie = Movie.objects.create(title=request.POST['movie_title'], movielist=movie_list)
+    try:
+        new_movie.full_clean()
+        new_movie.save()
+    except ValidationError:
+        movie_list.delete()
+        error = "You can't have an empty movie title"
+        return render(request, 'home.html', {"error": error})
+    return redirect(f'/lists/{movie_list.id}/')
 
 
 def add_movie(request, list_id):
