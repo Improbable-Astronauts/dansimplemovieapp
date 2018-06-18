@@ -13,10 +13,18 @@ def home_page(request):
 
 def view_list(request, list_id):
     movie_list = List.objects.get(id=list_id)
+    error = None
+
     if request.method == 'POST':
-        Movie.objects.create(title=request.POST['movie_title'], movielist=movie_list)
-        return redirect(f'/lists/{movie_list.id}/')
-    return render(request, 'list.html', {'list': movie_list})
+        try:
+            new_movie = Movie(title=request.POST['movie_title'], movielist=movie_list)
+            new_movie.full_clean()
+            new_movie.save()
+            return redirect(f'/lists/{movie_list.id}/')
+        except ValidationError:
+            error = "You can't have an empty movie title"
+
+    return render(request, 'list.html', {'list': movie_list, 'error': error})
 
 
 def new_list(request):
