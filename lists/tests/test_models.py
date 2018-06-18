@@ -41,3 +41,8 @@ class ListAndMovieModelsTest(TestCase):
             empty_movie.full_clean()  # Run full validation, don't assume that the db will silently ignore 
 
 
+    def test_get_absolute_url(self):
+        movie_list = List.objects.create()
+        self.assertEqual(movie_list.get_absolute_url(), f'/lists/{movie_list.id}/')
+
+

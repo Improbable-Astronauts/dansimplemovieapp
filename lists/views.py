@@ -20,7 +20,7 @@ def view_list(request, list_id):
             new_movie = Movie(title=request.POST['movie_title'], movielist=movie_list)
             new_movie.full_clean()
             new_movie.save()
-            return redirect(f'/lists/{movie_list.id}/')
+            return redirect(movie_list)
         except ValidationError:
             error = "You can't have an empty movie title"
 
@@ -37,6 +37,6 @@ def new_list(request):
         movie_list.delete()
         error = "You can't have an empty movie title"
         return render(request, 'home.html', {"error": error})
-    return redirect(f'/lists/{movie_list.id}/')
+    return redirect(movie_list)
 
 
