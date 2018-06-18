@@ -40,34 +40,6 @@ class NewListTest(TestCase):
         self.assertEqual(Movie.objects.count(), 0)
 
 
-class NewItemTest(TestCase):
-
-    def test_can_save_a_POST_request_to_an_existing_list(self):
-        other_list = List.objects.create()
-        correct_list = List.objects.create()
-
-        self.client.post(
-            f'/lists/{correct_list.id}/add_movie',
-            data={'movie_title': 'A new movie title for an existing list'}
-        )
-
-        self.assertEqual(Movie.objects.count(), 1)
-        new_movie = Movie.objects.first()
-        self.assertEqual(new_movie.title, 'A new movie title for an existing list')
-        self.assertEqual(new_movie.movielist, correct_list)
-
-    def test_redirects_to_list_view(self):
-        other_list = List.objects.create()
-        correct_list = List.objects.create()
-        
-        response = self.client.post(
-            f'/lists/{correct_list.id}/add_movie',
-            data={'movie_title': 'A new movie title for an existing list'}
-        )
-        
-        self.assertRedirects(response, f'/lists/{correct_list.id}/')
-
-
 class ListViewTest(TestCase):
 
     def test_uses_list_template(self):
@@ -97,5 +69,31 @@ class ListViewTest(TestCase):
         self.assertContains(response, 'moviey 2')
         self.assertNotContains(response, 'other list movie 1')
         self.assertNotContains(response, 'other list movie 2')
+
+
+    def test_can_save_a_POST_request_to_an_existing_list(self):
+        other_list = List.objects.create()
+        correct_list = List.objects.create()
+
+        self.client.post(
+            f'/lists/{correct_list.id}/',
+            data={'movie_title': 'A new movie title for an existing list'}
+        )
+
+        self.assertEqual(Movie.objects.count(), 1)
+        new_movie = Movie.objects.first()
+        self.assertEqual(new_movie.title, 'A new movie title for an existing list')
+        self.assertEqual(new_movie.movielist, correct_list)
+
+    def test_POST_redirects_to_list_view(self):
+        other_list = List.objects.create()
+        correct_list = List.objects.create()
+        
+        response = self.client.post(
+            f'/lists/{correct_list.id}/',
+            data={'movie_title': 'A new movie title for an existing list'}
+        )
+        
+        self.assertRedirects(response, f'/lists/{correct_list.id}/')
 
 
